@@ -102,8 +102,8 @@ Rails.application.configure do
     address:              'sandbox.smtp.mailtrap.io',
     port:                 587,
     domain:               'pet-adoption-network-36296f9aa39a.herokuapp.com',
-    user_name:            ENV['SENDGRID_USERNAME'],
-    password:             ENV['SENDGRID_PASSWORD'],
+    user_name:            ENV['MAILTRAP_USERNAME'],
+    password:             ENV['MAILTRAP_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true
   }
