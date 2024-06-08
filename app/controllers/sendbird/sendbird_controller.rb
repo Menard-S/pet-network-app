@@ -1,6 +1,10 @@
 module Sendbird
     class SendbirdController < ApplicationController
       def create_user_to_sendbird(user)
+        if user.nil?
+          Rails.logger.error "User is nil in create_user_to_sendbird"
+          return false
+        end
         response = SendbirdService.register_user(user)
         response.present?  # Return true if response is present, false otherwise
       end
