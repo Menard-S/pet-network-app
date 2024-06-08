@@ -16,6 +16,10 @@ class SendbirdService
 
    # register user in senbird account
    def self.register_user(user)
+    if user.nil?
+      Rails.logger.error "User is nil in register_user"
+      return nil
+    end
     url = "#{BASE_URL}/users"
     profile_url = 'https://sendbird.com/main/img/profiles/profile_05_512px.png'
     # Make the HTTP request using Faraday

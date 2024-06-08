@@ -54,12 +54,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if @invited_user.update(user_params)
         @invited_user.accept_invitation!
         sign_in(@invited_user)
+        sendbird_controller = Sendbird::SendbirdController.new
+        if sendbird_controller.create_user_to_sendbird(@invited_user)
+          flash[:notice] = "User registered with Sendbird successfully."
+        else
+          flash[:alert] = "Error registering user with Sendbird."
+        end
         redirect_to root_path, notice: 'Your account has been successfully created.'
       else
         Rails.logger.debug "Update failed: #{@invited_user.errors.full_messages.join(', ')}" if @invited_user
         render 'devise/registrations/new_invited_user'
       end
     else
+      Rails.logger.error "Invited user not found or expired invitation token"
       render 'devise/registrations/new_invited_user', alert: 'Invalid or expired invitation token.'
     end
   end  
